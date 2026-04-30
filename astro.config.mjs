@@ -2,6 +2,8 @@ import { defineConfig } from "astro/config";
 import svelte from "@astrojs/svelte";
 
 export default defineConfig({
+  site: "https://thebardchat.github.io",
+  base: "/tug-pro",
   integrations: [svelte()],
   server: { host: "0.0.0.0", port: 4321 },
   vite: {
