@@ -3,21 +3,21 @@
   import { tliDv } from "../lib/orbit";
   import { dvBudget } from "../data/mission";
 
-  // User-tunable inputs
-  let payloadKg = 5_000;
-  let apogeeKm = 150;
+  // User-tunable inputs (canonical defaults: BGKPJR VG baseline 2026-04-30)
+  let payloadKg = 4_200;        // Manna-H gross mass
+  let leoOrbitKm = 400;         // circular LEO catch altitude (was 150 km apogee)
   let ispSec = 360;
-  let dryKg = 4_200;
+  let dryKg = 5_000;            // canonical Tug dry mass
   let marginPct = 15;
 
   // Derived: phase ΔV km/s
   $: phases = [
     { phase: "Phasing trim",       km_s: 0.10 },
-    { phase: "Apogee rendezvous",  km_s: 0.05 },
-    { phase: "TLI burn",           km_s: +tliDv(apogeeKm).toFixed(2) },
+    { phase: "LEO rendezvous",     km_s: 0.05 },
+    { phase: "TLI burn",           km_s: +tliDv(leoOrbitKm).toFixed(2) },
     { phase: "Mid-course corr.",   km_s: 0.05 },
     { phase: "Pod release",        km_s: 0.02 },
-    { phase: "Return to phasing",  km_s: 1.85 },
+    { phase: "Return to LEO",      km_s: 2.20 },
     { phase: "Plane / phase clean", km_s: 0.40 },
   ];
 
@@ -48,9 +48,9 @@
     </label>
 
     <label>
-      <span class="ilabel">Pod apogee <span class="unit">km</span></span>
-      <input type="number" min="100" max="800" step="10" bind:value={apogeeKm} />
-      <input type="range"  min="100" max="800" step="10" bind:value={apogeeKm} />
+      <span class="ilabel">LEO catch altitude <span class="unit">km</span></span>
+      <input type="number" min="200" max="800" step="10" bind:value={leoOrbitKm} />
+      <input type="range"  min="200" max="800" step="10" bind:value={leoOrbitKm} />
     </label>
 
     <label>
