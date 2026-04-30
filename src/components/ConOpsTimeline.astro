@@ -1,0 +1,83 @@
+---
+const phases = [
+  { id: "T-00", t: "T+0",   title: "Rail launch",         desc: "BGKPJR rail accelerates 5,000 kg pod to ~6.4 km/s, 34.93°N." },
+  { id: "T-01", t: "T+02m", title: "Coast to apogee",     desc: "Ballistic arc; pod cold-gas detumbles, broadcasts beacon." },
+  { id: "T-02", t: "T+04m", title: "Apogee rendezvous",   desc: "Tug already in phasing orbit; closes to within 200 m." },
+  { id: "T-03", t: "T+05m", title: "Capture",             desc: "Compliant net intercepts at < 0.8 m/s; clamp to cradle." },
+  { id: "T-04", t: "T+02h", title: "TLI burn",            desc: "Single-burn ~3.15 km/s departure to lunar transfer." },
+  { id: "T-05", t: "T+72h", title: "Lunar SOI",           desc: "Cross lunar SOI; pod release with retro pulse." },
+  { id: "T-06", t: "T+04d", title: "Tug return",          desc: "Lunar gravity-assist or direct return burn back to phasing orbit." },
+  { id: "T-07", t: "T+07d", title: "Re-arm",              desc: "Catch-up burns + plane clean for next pod window." },
+];
+---
+<ol class="conops">
+  {phases.map((p, i) => (
+    <li class="phase" style={`--n: ${i};`}>
+      <div class="phase-tick" aria-hidden="true">
+        <span class="dot"></span>
+        {i < phases.length - 1 && <span class="line"></span>}
+      </div>
+      <div class="phase-body">
+        <div class="phase-meta">
+          <span class="t">{p.t}</span>
+          <span class="id mono">{p.id}</span>
+        </div>
+        <h4 class="title">{p.title}</h4>
+        <p class="desc">{p.desc}</p>
+      </div>
+    </li>
+  ))}
+</ol>
+
+<style>
+.conops {
+  list-style: none;
+  padding: 0;
+  margin: 32px 0 0;
+  display: grid;
+  gap: 0;
+}
+.phase {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: 18px;
+  padding: 6px 0 28px;
+  position: relative;
+  opacity: 0;
+  transform: translateY(8px);
+  animation: rise .6s var(--ease-out) forwards;
+  animation-delay: calc(var(--n) * 70ms);
+}
+@keyframes rise {
+  to { opacity: 1; transform: none; }
+}
+.phase-tick {
+  position: relative;
+  display: flex; flex-direction: column; align-items: center;
+}
+.dot {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--c-bg);
+  border: 2px solid var(--c-accent);
+  box-shadow: 0 0 0 4px rgba(92,242,192,.1);
+  margin-top: 6px;
+}
+.line {
+  flex: 1;
+  width: 2px;
+  background: linear-gradient(180deg, rgba(92,242,192,.5), var(--c-line));
+  margin-top: 4px;
+}
+.phase-meta {
+  display: flex; gap: 12px; align-items: baseline;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  color: var(--c-fg-dim);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.phase-meta .t { color: var(--c-accent); }
+.title { margin: 6px 0 6px; font-size: var(--fs-md); }
+.desc { color: var(--c-fg-2); margin: 0; max-width: 56ch; }
+</style>

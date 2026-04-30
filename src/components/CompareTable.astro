@@ -1,0 +1,77 @@
+---
+import { compare } from "../data/compare";
+---
+<div class="compare-wrap">
+  <table class="compare">
+    <thead>
+      <tr>
+        <th>Vehicle</th>
+        <th>Status</th>
+        <th>Payload (kg)</th>
+        <th>Reuses</th>
+        <th>Primary route</th>
+        <th>Capture / dock</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      {compare.map(r => (
+        <tr class={r.status === "this" ? "row-this" : ""}>
+          <td class="v">{r.vehicle}</td>
+          <td><span class={`status status-${r.status}`}>{r.status}</span></td>
+          <td class="mono">{r.payloadKg}</td>
+          <td class="mono">{r.reuses}</td>
+          <td>{r.primaryRoute}</td>
+          <td>{r.capture}</td>
+          <td class="dim">{r.notes}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+<style>
+.compare-wrap { overflow-x: auto; margin-top: 32px; }
+.compare {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+  min-width: 880px;
+}
+.compare th {
+  text-align: left;
+  padding: 12px 14px;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c-fg-dim);
+  border-bottom: 1px solid var(--c-line-hi);
+}
+.compare td {
+  padding: 14px;
+  border-bottom: 1px solid var(--c-line);
+  color: var(--c-fg-2);
+  vertical-align: top;
+}
+.compare td.v { color: var(--c-fg); font-weight: 500; }
+.compare td.dim { color: var(--c-fg-dim); font-size: 13px; }
+.compare td.mono { font-family: var(--f-mono); }
+.row-this { background: rgba(92,242,192,.04); }
+.row-this .v { color: var(--c-accent); }
+.status {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--c-line-hi);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--c-fg-2);
+  white-space: nowrap;
+}
+.status-operational { color: var(--c-accent); border-color: rgba(92,242,192,.4); }
+.status-in-dev      { color: var(--c-accent-2); border-color: rgba(255,184,77,.4); }
+.status-concept     { color: var(--c-fg-2); }
+.status-this        { color: #04101a; background: var(--c-accent); border-color: var(--c-accent); }
+</style>

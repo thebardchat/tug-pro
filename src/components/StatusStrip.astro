@@ -1,0 +1,42 @@
+---
+const { phase = "PRE-PHASE A · CONCEPT", rev = "0.2", updated = "Apr 2026" } = Astro.props;
+---
+<div class="status-strip" role="status" aria-label="Mission status">
+  <div class="wrap inner">
+    <span class="dot" aria-hidden="true"></span>
+    <span class="label">{phase}</span>
+    <span class="sep">·</span>
+    <span class="meta">Doc rev {rev}</span>
+    <span class="sep">·</span>
+    <span class="meta">Updated <time>{updated}</time></span>
+    <span class="spacer"></span>
+    <span class="meta mono">tug.flight</span>
+  </div>
+</div>
+
+<style>
+.status-strip {
+  background: var(--c-bg-1);
+  border-bottom: 1px solid var(--c-line);
+  font-family: var(--f-mono);
+  font-size: var(--fs-xs);
+  color: var(--c-fg-dim);
+  letter-spacing: 0.1em;
+}
+.inner { display: flex; align-items: center; gap: 12px; height: 32px; }
+.dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--c-accent);
+  box-shadow: 0 0 0 2px rgba(92,242,192,.18);
+  animation: pulse 2.4s var(--ease-out) infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50%     { opacity: .55; transform: scale(.85); }
+}
+.label { color: var(--c-fg); letter-spacing: 0.18em; }
+.sep   { color: var(--c-line-hi); }
+.meta  { text-transform: uppercase; }
+.spacer { flex: 1; }
+.mono  { color: var(--c-fg-2); }
+</style>

@@ -1,0 +1,193 @@
+---
+import Layout from "../layouts/Layout.astro";
+import StatusStrip from "../components/StatusStrip.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import ConOpsTimeline from "../components/ConOpsTimeline.astro";
+import SubsystemDossier from "../components/SubsystemDossier.astro";
+import CompareTable from "../components/CompareTable.astro";
+import OrbitVisualizer from "../islands/OrbitVisualizer.svelte";
+import DeltaVCalculator from "../islands/DeltaVCalculator.svelte";
+import MassPowerBudget from "../islands/MassPowerBudget.svelte";
+import RisksMatrix from "../islands/RisksMatrix.svelte";
+---
+<Layout>
+  <StatusStrip />
+  <Header />
+  <Hero />
+
+  <!-- ─── 01 / Mission overview ─── -->
+  <section id="mission" class="section">
+    <div class="wrap">
+      <div class="eyebrow"><span class="eyebrow-num">01</span><span>Mission overview</span></div>
+      <h2>Decouple lift from transit. Reuse the expensive part.</h2>
+      <div class="two-col">
+        <p class="lede">
+          The cargo chain is three vehicles, one mission. A magnetic rail does
+          what magnetic rails are good at — accelerating dumb mass cheaply. A ballistic
+          pod does what dumb cargo can — coast. The Tug does what only an active
+          spacecraft can — match orbits, capture, and burn for somewhere else.
+        </p>
+        <p class="kicker">
+          Nothing on the pod has to survive a return trip. Nothing on the rail has to
+          fly. The Tug is the only piece that must be precise, recoverable, and reusable
+          — so make it the only piece you build well.
+        </p>
+      </div>
+      <div class="value-props">
+        <div class="vp">
+          <span class="vp-num">↻</span>
+          <h4>Reusable where it matters</h4>
+          <p>The Tug catches, transfers, and returns. ≥10 cycles per airframe.</p>
+        </div>
+        <div class="vp">
+          <span class="vp-num">∅</span>
+          <h4>Zero pod propellant</h4>
+          <p>Pods are inert mass with a beacon. All ΔV lives on the Tug.</p>
+        </div>
+        <div class="vp">
+          <span class="vp-num">↗</span>
+          <h4>Cadence over capacity</h4>
+          <p>One catch per pod. Throughput scales with rail launches, not Tugs.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 02 / ConOps ─── -->
+  <section id="conops" class="section dark">
+    <div class="wrap">
+      <div class="eyebrow"><span class="eyebrow-num">02</span><span>Concept of operations</span></div>
+      <h2>Eight steps from rail to lunar handoff.</h2>
+      <p class="kicker">A nominal mission, summarized at flight-card resolution.</p>
+      <ConOpsTimeline />
+    </div>
+  </section>
+
+  <!-- ─── 03 / Orbit visualizer ─── -->
+  <section id="orbit" class="section">
+    <div class="wrap">
+      <div class="eyebrow"><span class="eyebrow-num">03</span><span>Orbit + transit</span></div>
+      <h2>The geometry, in motion.</h2>
+      <p class="kicker">
+        Phasing orbit (green), trans-lunar ellipse (amber), lunar orbit (grey).
+        Scrub the timeline. All distances are real ratios; bodies are sized for legibility.
+      </p>
+      <OrbitVisualizer client:only="svelte" />
+    </div>
+  </section>
+
+  <!-- ─── 04 / ΔV calculator ─── -->
+  <section id="dv" class="section dark">
+    <div class="wrap">
+      <div class="eyebrow"><span class="eyebrow-num">04</span><span>Live ΔV calculator</span></div>
+      <h2>Tune the mission. Watch propellant move.</h2>
+      <p class="kicker">
+        Tsiolkovsky over a stacked phase budget. TLI ΔV recomputes from your apogee input;
+        propellant carries forward through every prior burn.
+      </p>
+      <DeltaVCalculator client:visible />
+    </div>
+  </section>
+
+  <!-- ─── 05 / Mass + power budget ─── -->
+  <section id="budget" class="section">
+    <div class="wrap">
+      <div class="eyebrow"><span class="eyebrow-num">05</span><span>Mass + power budget</span></div>
+      <h2>Every kilogram, every watt, in one view.</h2>
+      <p class="kicker">Toggle metric. Bars are sorted by share so the dominant cost line surfaces first.</p>
+      <MassPowerBudget client:visible />
+    </div>
+  </section>
+
+  <!-- ─── 06 / Vehicle dossier ─── -->
+  <section id="vehicle" class="section dark">
+    <div class="wrap">
+      <div class="eyebrow"><span class="eyebrow-num">06</span><span>Vehicle dossier</span></div>
+      <h2>Subsystems with TRL, mass, power, and notes.</h2>
+      <p class="kicker">Click any panel to expand technical detail and watch-items.</p>
+      <SubsystemDossier />
+    </div>
+  </section>
+
+  <!-- ─── 07 / Risks ─── -->
+  <section id="risks" class="section">
+    <div class="wrap">
+      <div class="eyebrow"><span class="eyebrow-num">07</span><span>Risks register</span></div>
+      <h2>Likelihood × Consequence, with mitigations.</h2>
+      <p class="kicker">Click a risk pill to see its mitigation. Pills cluster in the top-right when capture or thermal threats compound.</p>
+      <RisksMatrix client:visible />
+    </div>
+  </section>
+
+  <!-- ─── 08 / Compare ─── -->
+  <section id="compare" class="section dark">
+    <div class="wrap">
+      <div class="eyebrow"><span class="eyebrow-num">08</span><span>Field comparison</span></div>
+      <h2>Where the Tug sits beside operational and concept tugs.</h2>
+      <CompareTable />
+    </div>
+  </section>
+
+  <!-- footer -->
+  <footer class="site-footer">
+    <div class="wrap inner">
+      <div class="f-brand">
+        <span class="f-name">TUG</span>
+        <span class="f-sub">Pre-Phase A · Doc rev 0.2 · {new Date().toUTCString().slice(0, 16)}</span>
+      </div>
+      <div class="f-links">
+        <a href="https://github.com/thebardchat/tug-pro" rel="noopener">github</a>
+        <a href="https://github.com/thebardchat/tug" rel="noopener">v1 reference</a>
+      </div>
+    </div>
+  </footer>
+</Layout>
+
+<style>
+.two-col {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 40px;
+  margin-top: 24px;
+}
+@media (max-width: 800px) { .two-col { grid-template-columns: 1fr; } }
+
+.value-props {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 48px;
+}
+.vp {
+  background: var(--c-card);
+  border: 1px solid var(--c-line);
+  border-radius: var(--r-lg);
+  padding: 22px;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.vp-num {
+  font-family: var(--f-mono);
+  font-size: 32px;
+  color: var(--c-accent);
+  line-height: 1;
+}
+.vp h4 { color: var(--c-fg); font-family: var(--f-display); }
+.vp p  { color: var(--c-fg-2); margin: 0; font-size: var(--fs-sm); }
+
+.site-footer {
+  border-top: 1px solid var(--c-line);
+  background: var(--c-bg-1);
+  padding: 28px 0;
+}
+.site-footer .inner {
+  display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  flex-wrap: wrap;
+}
+.f-brand { display: flex; flex-direction: column; gap: 4px; }
+.f-name { font-family: var(--f-display); font-weight: 700; letter-spacing: 0.12em; color: var(--c-fg); }
+.f-sub  { font-family: var(--f-mono); font-size: 11px; color: var(--c-fg-dim); letter-spacing: 0.08em; }
+.f-links { display: flex; gap: 18px; }
+.f-links a { color: var(--c-fg-2); font-family: var(--f-mono); font-size: 12px; }
+.f-links a:hover { color: var(--c-accent); }
+</style>

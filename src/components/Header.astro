@@ -1,0 +1,68 @@
+---
+const nav = [
+  { href: "#mission",   label: "Mission" },
+  { href: "#conops",    label: "ConOps" },
+  { href: "#orbit",     label: "Orbit" },
+  { href: "#dv",        label: "ΔV calc" },
+  { href: "#budget",    label: "Budget" },
+  { href: "#vehicle",   label: "Vehicle" },
+  { href: "#risks",     label: "Risks" },
+  { href: "#compare",   label: "Compare" },
+];
+---
+<header class="site-header">
+  <div class="wrap inner">
+    <a class="brand" href="#top" aria-label="TUG home">
+      <svg class="patch" viewBox="0 0 56 56" aria-hidden="true">
+        <circle cx="28" cy="28" r="26" fill="#050a14" stroke="#5cf2c0" stroke-width="1.5"/>
+        <circle cx="28" cy="28" r="22" fill="none" stroke="#1f3050" stroke-width="0.5" stroke-dasharray="2 2"/>
+        <ellipse cx="28" cy="32" rx="16" ry="4" fill="none" stroke="#5cf2c0" stroke-width="1" opacity="0.7"/>
+        <circle cx="28" cy="32" r="6" fill="#0d1827" stroke="#5cf2c0" stroke-width="1"/>
+        <circle cx="42" cy="22" r="2.5" fill="#dcd6c8"/>
+        <path d="M28 32 L42 22" stroke="#ffb84d" stroke-width="1" stroke-dasharray="1.5 1.5"/>
+        <text x="28" y="50" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" fill="#7a8fa8" letter-spacing="1.5">TUG · 01</text>
+      </svg>
+      <span class="brand-text">
+        <span class="brand-name">TUG</span>
+        <span class="brand-sub">Reusable cislunar transit stage</span>
+      </span>
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      {nav.map(n => <a href={n.href}>{n.label}</a>)}
+      <a class="external" href="https://github.com/thebardchat/tug-pro" rel="noopener">github →</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(5,10,20,.78);
+  backdrop-filter: blur(10px) saturate(120%);
+  border-bottom: 1px solid var(--c-line);
+}
+.inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 68px; gap: 24px;
+}
+.brand { display: flex; align-items: center; gap: 14px; color: var(--c-fg); }
+.patch { width: 40px; height: 40px; flex: 0 0 40px; }
+.brand-text { display: flex; flex-direction: column; line-height: 1.05; }
+.brand-name {
+  font-family: var(--f-display); font-weight: 700;
+  font-size: 22px; letter-spacing: 0.12em; color: var(--c-fg);
+}
+.brand-sub {
+  font-family: var(--f-mono); font-size: 11px;
+  color: var(--c-fg-dim); letter-spacing: 0.08em; text-transform: uppercase;
+}
+.site-nav {
+  display: flex; align-items: center; gap: 22px;
+  font-family: var(--f-mono); font-size: var(--fs-sm);
+}
+.site-nav a { color: var(--c-fg-2); transition: color .2s var(--ease-out); }
+.site-nav a:hover { color: var(--c-accent); }
+.site-nav .external { color: var(--c-accent); }
+
+@media (max-width: 900px) { .site-nav { display: none; } }
+</style>

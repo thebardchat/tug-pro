@@ -1,0 +1,96 @@
+---
+import { subsystems, drySumKg, peakPowerW } from "../data/subsystems";
+---
+<div class="dossier-grid">
+  {subsystems.map(s => (
+    <details class="sub-card">
+      <summary>
+        <span class="sub-name">{s.name}</span>
+        <span class="sub-meta">
+          <span class="chip">{s.massKg.toLocaleString()} kg</span>
+          <span class="chip">{s.powerW} W</span>
+          <span class={`chip trl trl-${s.trl >= 7 ? 'high' : s.trl >= 4 ? 'mid' : 'low'}`}>TRL {s.trl}</span>
+        </span>
+      </summary>
+      <p class="desc">{s.description}</p>
+      <ul class="notes">
+        {s.notes.map(n => <li>{n}</li>)}
+      </ul>
+    </details>
+  ))}
+</div>
+
+<div class="dossier-totals">
+  <div><span class="t-label">Dry mass</span><span class="t-num">{drySumKg.toLocaleString()} kg</span></div>
+  <div><span class="t-label">Peak power</span><span class="t-num">{peakPowerW.toLocaleString()} W</span></div>
+  <div><span class="t-label">Subsystems</span><span class="t-num">{subsystems.length}</span></div>
+</div>
+
+<style>
+.dossier-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 16px;
+  margin-top: 32px;
+}
+.sub-card {
+  background: var(--c-card);
+  border: 1px solid var(--c-line);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  transition: border-color .2s var(--ease-out);
+}
+.sub-card[open] { border-color: var(--c-accent); }
+.sub-card summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 16px 18px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.sub-card summary::-webkit-details-marker { display: none; }
+.sub-name {
+  font-family: var(--f-display);
+  font-weight: 600;
+  font-size: var(--fs-md);
+  color: var(--c-fg);
+}
+.sub-meta { display: flex; gap: 6px; flex-wrap: wrap; }
+.chip {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  color: var(--c-fg-2);
+  border: 1px solid var(--c-line-hi);
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+.chip.trl-high { color: var(--c-accent); border-color: rgba(92,242,192,.4); }
+.chip.trl-mid  { color: var(--c-accent-2); border-color: rgba(255,184,77,.4); }
+.chip.trl-low  { color: var(--c-warn); border-color: rgba(255,118,118,.4); }
+.desc {
+  padding: 0 18px 6px;
+  margin: 0;
+  color: var(--c-fg-2);
+  font-size: var(--fs-sm);
+}
+.notes {
+  padding: 0 18px 18px 36px;
+  margin: 0;
+  color: var(--c-fg-dim);
+  font-family: var(--f-mono);
+  font-size: 12px;
+  line-height: 1.7;
+}
+.dossier-totals {
+  margin-top: 28px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 24px;
+  padding: 24px;
+  background: var(--c-bg-1);
+  border: 1px solid var(--c-line);
+  border-radius: var(--r-lg);
+}
+.dossier-totals > div { display: flex; flex-direction: column; gap: 6px; }
+.t-label { font-family: var(--f-mono); font-size: 11px; color: var(--c-fg-dim); letter-spacing: 0.16em; text-transform: uppercase; }
+.t-num   { font-family: var(--f-display); font-size: var(--fs-2xl); color: var(--c-fg); font-weight: 600; }
+</style>
