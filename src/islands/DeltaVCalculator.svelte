@@ -3,21 +3,23 @@
   import { tliDv } from "../lib/orbit";
   import { dvBudget } from "../data/mission";
 
-  // User-tunable inputs (canonical defaults: BGKPJR VG baseline 2026-04-30)
+  // User-tunable inputs (BGKPJR VG canonical baseline, sub-orbital catch
+  // architecture validated by trajectory_closure.py 2026-04-30)
   let payloadKg = 4_200;        // Manna-H gross mass
-  let leoOrbitKm = 400;         // circular LEO catch altitude (was 150 km apogee)
+  let apogeeKm = 166;           // target sub-orbital apogee (validated by sim)
   let ispSec = 360;
   let dryKg = 5_000;            // canonical Tug dry mass
   let marginPct = 15;
 
-  // Derived: phase ΔV km/s
+  // Derived: phase ΔV km/s — sub-orbital catch + refueled Tug architecture
   $: phases = [
-    { phase: "Phasing trim",       km_s: 0.10 },
-    { phase: "LEO rendezvous",     km_s: 0.05 },
-    { phase: "TLI burn",           km_s: +tliDv(leoOrbitKm).toFixed(2) },
-    { phase: "Mid-course corr.",   km_s: 0.05 },
-    { phase: "Pod release",        km_s: 0.02 },
-    { phase: "Return to LEO",      km_s: 2.20 },
+    { phase: "Phasing trim",        km_s: 0.10 },
+    { phase: "Apogee rendezvous",   km_s: 0.05 },
+    { phase: "Catch + circularize", km_s: 6.13 },  // sim-validated for 166 km apogee
+    { phase: "TLI burn",            km_s: 3.15 },  // from LEO after refuel
+    { phase: "Mid-course corr.",    km_s: 0.05 },
+    { phase: "Pod release",         km_s: 0.02 },
+    { phase: "Return to LEO",       km_s: 2.20 },
     { phase: "Plane / phase clean", km_s: 0.40 },
   ];
 
@@ -48,9 +50,9 @@
     </label>
 
     <label>
-      <span class="ilabel">LEO catch altitude <span class="unit">km</span></span>
-      <input type="number" min="200" max="800" step="10" bind:value={leoOrbitKm} />
-      <input type="range"  min="200" max="800" step="10" bind:value={leoOrbitKm} />
+      <span class="ilabel">Pod apogee <span class="unit">km</span></span>
+      <input type="number" min="100" max="400" step="10" bind:value={apogeeKm} />
+      <input type="range"  min="100" max="400" step="10" bind:value={apogeeKm} />
     </label>
 
     <label>
